@@ -1,0 +1,17 @@
+label        vm-v1
+machine      VM numbers (OrbStack, Apple Silicon aarch64, 8 CPUs; Chrome closed)
+date (UTC)   2026-10-25T21:26:12Z
+kernel       Linux 7.2.12-orbstack-00394-gbecdd6130068 aarch64
+cpus         7
+compiler     /usr/bin/c++ 15.2.0
+flags        Release: -O3 -DNDEBUG
+commit       eeb74f978764ab26e3e45814d7b6f60139aa8b7d (0 uncommitted changes)
+orderbook    v2.1.0 (FetchContent)
+python       3.14.4 numpy 2.4.4 pandas 3.0.2
+itch dir     /home/karan/itch/psx-study
+days         20181228 20190130 20190327 20190530 20190730
+symbols      SPY QQQ IWM MSFT AAPL
+Architecture:                            aarch64
+CPU(s):                                  8
+Model name:                              -
+CPU(s) scaling MHz:                      100%

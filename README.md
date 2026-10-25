@@ -93,14 +93,66 @@ MACHINE_LABEL="VM numbers (...)" PIN=2 ./scripts/run_bench.sh vm-v1-export
 
 <!-- v1-results:begin -->
 ### v1
---
+Development days only: 20181228, 20190130, 20190327, 20190530, 20190730. The held-out days are untouched.
+
+Method: one row per book update (last op per timestamp); signals from 09:35 to 15:55 ET; statistics per
+symbol-day, then the mean across the 5 days (days are the unit); in brackets, days with a positive value.
+Machine: VM numbers (OrbStack, Apple Silicon aarch64, 8 CPUs; Chrome closed); GCC 15.2.0, Release -O3 -DNDEBUG;
+Python 3.14.4 numpy 2.4.4 pandas 3.0.2; commit eeb74f9.
+Raw output: `results/vm-v1-20261025-162612/` (full table: `signal_summary_dev.txt`, per day: `signal_per_day_dev.csv`); first run
+`results/vm-v1-20261025-161440/` (identical); diagnostic `results/vm-v1-diag-20261025-161947/`.
+
+| Symbol | PSX spread: one-tick share, median (ticks) | Zero changes at 1 update | Pearson, 10 updates | Spearman, 10 updates | Pearson, 1 s | Spearman, 1 s |
+|---|---|---|---|---|---|---|
+| SPY | 27.3%, 2.2 | 76% | 0.162 (4/5) | 0.200 (4/5) | 0.084 (4/5) | 0.108 (4/5) |
+| QQQ | 38.3%, 1.6 | 82% | 0.098 (4/5) | 0.199 (5/5) | 0.045 (3/5) | 0.107 (5/5) |
+| IWM | 36.2%, 1.6 | 82% | 0.167 (5/5) | 0.190 (5/5) | 0.095 (5/5) | 0.115 (5/5) |
+| MSFT | 20.9%, 2.2 | 69% | 0.021 (4/5) | 0.150 (5/5) | 0.012 (4/5) | 0.115 (5/5) |
+| AAPL | 1.4%, 5.2 | 56% | -0.037 (1/5) | 0.108 (4/5) | -0.049 (1/5) | 0.077 (3/5) |
+
+Export (`lob_export`), 20190130, pinned to one CPU, 3 runs; raw output `results/vm-v1-export-20261025-162724.txt`:
+
+| Step | Runs | Time | Rate |
+|---|---|---|---|
+| Parse and replay-build, 1 day (41,448,696 messages, 5 symbols) | 2-3 | 1.27 s | 32.6 M messages/s |
+| Same, run 1 | 1 | 4.68 s | 8.9 M messages/s |
+| Export all 5 symbols (3,115,286 rows) | 1-3 | 0.48-0.58 s | 5.4-6.5 M rows/s |
+
+Run 1 of the parse is slower; likely the file was read from disk, and runs 2-3 from the page cache.
 <!-- v1-results:end -->
 
 ## What the numbers show
 
 <!-- v1-shown:begin -->
 ### v1
---
+Shown (development days):
+- For the three ETFs, imbalance is positively related to the next mid change at every horizon: mean daily
+  Pearson correlation 0.02 to 0.17, positive on 3 to 5 of 5 days; IWM positive on all 5 days at all 6 horizons.
+- The relation is strongest at the shortest horizons and fades: SPY 0.14 to 0.16 at 1 to 10 updates and
+  100 ms, 0.03 at 10 s.
+- Most short-horizon updates do not move the mid: 76% to 82% zero changes at 1 update for the ETFs, under
+  10% at 10 s.
+- The effect is small in price terms: for the ETFs, slopes of 0.04 to 0.24 ticks per unit of imbalance,
+  well under a one-tick spread. Whether it can be traded is H2 (v2).
+- On ranks (Spearman), the relation is positive on average for all 5 symbols at all 6 horizons, positive on
+  3 to 5 of 5 days.
+- AAPL's Pearson correlation is negative (-0.03 to -0.05). Its PSX book is thin (one-tick spread 1.4% of
+  updates) and its mid makes rare huge jumps (99.9th percentile 330 to 380 ticks, max 1,024).
+- A second run reproduced every number. The export matches an independent Python rebuild from raw ITCH on
+  the first 200,000 rows of QQQ (20190130) and AAPL (20190327).
+
+Likely:
+- AAPL's negative Pearson comes from PSX book artifacts (the best level empties and the next PSX order is far
+  away) rather than market moves; Spearman, which ignores jump size, is positive.
+- The slower first parse is disk reads; runs 2-3 read from the page cache.
+
+What did not work:
+- The share of covariance from the top 0.1% of rows: unstable (-4.8 to 101 for MSFT) because the total
+  covariance is near zero. Reported, not used.
+
+To measure next (v2):
+- Whether a rule that crosses the spread survives fees and latency, with the spread-limit grid; then the
+  single held-out evaluation of H1 (Pearson primary, Spearman secondary) and H2.
 <!-- v1-shown:end -->
 
 ## Repository layout

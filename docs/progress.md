@@ -6,8 +6,8 @@ The count of strategy variants tried feeds the deflated Sharpe in v2.
 | Version | Item | Status |
 |---|---|---|
 | v1 | Exporter, reference check, signal study on development days | built |
-| v1 | Real-data reference check on a prefix of each symbol | -- |
-| v1 | Development-day results | -- |
+| v1 | Real-data reference check | QQQ 20190130 and AAPL 20190327, first 200,000 rows each: match |
+| v1 | Development-day results | results/vm-v1-20261025-162612 (rerun of results/vm-v1-20261025-161440, identical); export benchmark results/vm-v1-export-20261025-162724.txt |
 | v2 | Strategy simulation | not started |
 | v2 | Held-out evaluation (once) | not started |
 

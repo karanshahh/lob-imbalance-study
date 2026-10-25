@@ -1,0 +1,30 @@
+label    vm-v1-export
+machine  VM numbers (OrbStack, Apple Silicon aarch64, 8 CPUs; Chrome closed)
+date     2026-10-25T21:27:24Z
+kernel   Linux 7.2.12-orbstack-00394-gbecdd6130068 aarch64; cpus 7; pin 2
+commit   eeb74f978764ab26e3e45814d7b6f60139aa8b7d
+command  taskset -c 2 build-release/lob_export /home/karan/itch/psx-study/20190130.PSX_ITCH_50 <tmp> SPY QQQ IWM MSFT AAPL
+--- run 1
+file /home/karan/itch/psx-study/20190130.PSX_ITCH_50
+parse_s 4.68 messages 41448696
+symbol SPY ops 929884 rows 929884 crossed 0 one_sided 902 unknown_refs 0 peak_live 166 export_s 0.164
+symbol QQQ ops 979275 rows 979275 crossed 0 one_sided 13019 unknown_refs 0 peak_live 133 export_s 0.167
+symbol IWM ops 679414 rows 679414 crossed 0 one_sided 391 unknown_refs 0 peak_live 122 export_s 0.121
+symbol MSFT ops 322757 rows 322757 crossed 0 one_sided 235 unknown_refs 0 peak_live 38 export_s 0.055
+symbol AAPL ops 203956 rows 203956 crossed 0 one_sided 602 unknown_refs 0 peak_live 49 export_s 0.038
+--- run 2
+file /home/karan/itch/psx-study/20190130.PSX_ITCH_50
+parse_s 1.27 messages 41448696
+symbol SPY ops 929884 rows 929884 crossed 0 one_sided 902 unknown_refs 0 peak_live 166 export_s 0.168
+symbol QQQ ops 979275 rows 979275 crossed 0 one_sided 13019 unknown_refs 0 peak_live 133 export_s 0.169
+symbol IWM ops 679414 rows 679414 crossed 0 one_sided 391 unknown_refs 0 peak_live 122 export_s 0.150
+symbol MSFT ops 322757 rows 322757 crossed 0 one_sided 235 unknown_refs 0 peak_live 38 export_s 0.055
+symbol AAPL ops 203956 rows 203956 crossed 0 one_sided 602 unknown_refs 0 peak_live 49 export_s 0.038
+--- run 3
+file /home/karan/itch/psx-study/20190130.PSX_ITCH_50
+parse_s 1.27 messages 41448696
+symbol SPY ops 929884 rows 929884 crossed 0 one_sided 902 unknown_refs 0 peak_live 166 export_s 0.145
+symbol QQQ ops 979275 rows 979275 crossed 0 one_sided 13019 unknown_refs 0 peak_live 133 export_s 0.148
+symbol IWM ops 679414 rows 679414 crossed 0 one_sided 391 unknown_refs 0 peak_live 122 export_s 0.104
+symbol MSFT ops 322757 rows 322757 crossed 0 one_sided 235 unknown_refs 0 peak_live 38 export_s 0.047
+symbol AAPL ops 203956 rows 203956 crossed 0 one_sided 602 unknown_refs 0 peak_live 49 export_s 0.032

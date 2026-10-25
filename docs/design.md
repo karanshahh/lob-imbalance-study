@@ -75,7 +75,7 @@ it and later simulates trading.
 
 ## Changes after development results (logged before any held-out use)
 - Trial 2 (diagnostic) found AAPL's negative Pearson correlation came from rare huge
-  PSX mid jumps (99.9th percentile 330-380 ticks, max 1,022 ticks) on a thin book
+  PSX mid jumps (99.9th percentile 330-380 ticks, max 1,024 ticks) on a thin book
   (one-tick spread 1.4% of the time), while its Spearman correlation was positive.
 - Trial 3 (decision): H1 keeps Pearson as the primary test; Spearman added as a frozen
   secondary test. No data filter for H1. The v2 grid adds a spread limit (below).
