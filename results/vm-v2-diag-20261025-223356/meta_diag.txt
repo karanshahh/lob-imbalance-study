@@ -1,0 +1,10 @@
+run: vm-v2-diag-20261025-223356
+command: python3 analysis/diagnose_sim.py --export-dir data/export --selection results/vm-v2-dev-20261025-220832/selection.json --out results --label vm-v2-diag
+started_utc: 2026-10-25T22:33:56+00:00
+wall_seconds: 7.2
+machine_label: VM numbers (OrbStack Ubuntu, Apple Silicon aarch64, 8 CPUs; Chrome closed, Mac idle)
+git_commit: 4f744750f023682f5e608639ddbc821784d67e14
+git_dirty_files: ?? results/vm-v2-diag-20261025-223356/
+selection: results/vm-v2-dev-20261025-220832/selection.json
+dev_days: ('20181228', '20190130', '20190327', '20190530', '20190730')
+read-only diagnostic: no rule or constant changed
