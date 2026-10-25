@@ -65,11 +65,20 @@ it and later simulates trading.
   all 4 held-out days (one-sided sign test, p = 1/16 per test). With 5 symbols x 6
   horizons = 30 tests, about 1.9 would pass by chance; the count passing is reported
   against that.
+  Secondary (frozen after the development diagnostic, before any held-out use): the same
+  rule with Spearman (rank) correlation. Both are reported whichever way they go.
 - **H2:** a rule that crosses the spread when |I| >= threshold does NOT have positive
   mean P&L per trade after spread and fees on held-out days. A clean negative result is
   a valid outcome.
 - Risk: the mid often does not move at short horizons (large tick relative to price).
   The share of zero changes is reported for every horizon.
+
+## Changes after development results (logged before any held-out use)
+- Trial 2 (diagnostic) found AAPL's negative Pearson correlation came from rare huge
+  PSX mid jumps (99.9th percentile 330-380 ticks, max 1,022 ticks) on a thin book
+  (one-tick spread 1.4% of the time), while its Spearman correlation was positive.
+- Trial 3 (decision): H1 keeps Pearson as the primary test; Spearman added as a frozen
+  secondary test. No data filter for H1. The v2 grid adds a spread limit (below).
 
 ## Signals
 - Baseline 1 (v1): top-of-book imbalance.
@@ -80,8 +89,9 @@ it and later simulates trading.
   used for a deflated Sharpe (Bailey and Lopez de Prado, 2014).
 
 ## Strategy simulation (v2), frozen now
-- Trade when |I| >= threshold, threshold from the grid 0.2, 0.4, 0.6, 0.8, chosen on
-  development days.
+- Trade when |I| >= threshold and the PSX spread is at most a limit. Grid: threshold
+  0.2, 0.4, 0.6, 0.8 x spread limit 1 tick, 2 ticks, any = 12 variants, chosen on
+  development days; all 12 count as trials for the deflated Sharpe.
 - Fill model: aggressive only. Buy at the best ask, sell at the best bid, using the book
   in force after a latency delay of 0, 10 us, 100 us or 1 ms (all reported). Own market
   impact is ignored, and that is stated.
@@ -91,7 +101,7 @@ it and later simulates trading.
 - Baselines: random direction with the same number of trades; always flat.
 
 ## What we measure
-- v1: per symbol, day and horizon: updates, share of zero mid changes, correlation,
+- v1: per symbol, day and horizon: updates, share of zero mid changes, correlation (Pearson, and Spearman on ranks),
   regression slope (ticks per unit of I), mean change by imbalance bucket
   (edges -1, -0.6, -0.2, 0.2, 0.6, 1). Across days: mean daily correlation, its standard
   error, and days with positive correlation (days are the unit, which handles the
@@ -113,12 +123,13 @@ it and later simulates trading.
   session boundaries, the same-timestamp collapse, statistics; a no-look-ahead test; a
   cheating signal (the future change) must show correlation about 1; noise about 0;
   the held-out lock refuses a second use.
-- Mutation check (14, each must be caught): bid quantity read from the ask side; reduce
+- Mutation check (18, each must be caught): bid quantity read from the ask side; reduce
   treated as cancel; seq starting at 1; timestamp dropped; messages fed to one symbol
   only; imbalance sign flipped; event horizon off by one; time horizon taking the wrong
   row; one-sided rows kept; first row per timestamp kept; session starting 09:30;
   held-out lock not checked; reference ignoring replace; reference reading the price at
-  the wrong offset.
+  the wrong offset; Spearman without ranks; one-tick share counting wider spreads; tail
+  share taking the smallest changes; the study's Spearman without ranks.
 - All C++ tests under ASan+UBSan, TSan and Release; CI on x86 runs the same plus the
   Python tests.
 

@@ -74,7 +74,7 @@ development days) and AAPL (by choice). Raw data is not committed.
 | Python known-answer tests | Mid, imbalance, both horizon kinds, session edges, timestamp collapse, statistics |
 | No-look-ahead and cheating-signal tests | The signal ignores later rows; a signal that sees the future is detected |
 | Held-out lock test | The held-out days cannot be used twice |
-| Mutation check | 14 deliberate bugs, each caught by the tests |
+| Mutation check | 18 deliberate bugs, each caught by the tests |
 | Sanitizers and CI | ASan+UBSan, TSan and Release locally; the same on x86 CI, plus the Python tests |
 
 ## Build, test, run

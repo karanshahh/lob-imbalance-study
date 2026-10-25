@@ -33,13 +33,16 @@ def claim_heldout(results_root):
 
 
 def summarize(per_day):
-    """Across days: mean daily corr, its standard error, days with positive corr."""
+    """Across days: mean daily corr (Pearson), its standard error, days with positive corr;
+    the same for Spearman (secondary)."""
     rows = []
     for (sym, hz), g in per_day.groupby(["symbol", "horizon"], sort=False):
         c = g["corr"].dropna()
+        sp = g["spearman"].dropna()
         se = c.std(ddof=1) / math.sqrt(len(c)) if len(c) > 1 else float("nan")
         rows.append({"symbol": sym, "horizon": hz, "days": len(c), "mean_corr": c.mean(), "se": se,
-                     "pos_days": int((c > 0).sum()), "mean_share_zero": g["share_zero"].mean(),
+                     "pos_days": int((c > 0).sum()), "mean_spearman": sp.mean(),
+                     "spearman_pos_days": int((sp > 0).sum()), "mean_share_zero": g["share_zero"].mean(),
                      "mean_slope": g["slope"].mean(), "n_total": int(g["n"].sum())})
     return pd.DataFrame(rows)
 
@@ -85,10 +88,13 @@ def main(argv=None):
         f.write(summary.to_string(index=False, float_format=lambda v: f"{v:.4f}"))
         f.write("\n")
         if a.set == "heldout":
-            passed = summary[summary["pos_days"] == len(days)]
-            f.write(f"\nRule (frozen): H1 holds for a symbol and horizon if corr > 0 on all {len(days)} "
-                    f"held-out days. Passed: {len(passed)} of {len(summary)}; about "
-                    f"{len(summary) / 2 ** len(days):.1f} would pass by chance if there were no effect.\n")
+            chance = len(summary) / 2 ** len(days)
+            p1 = int((summary["pos_days"] == len(days)).sum())
+            p2 = int((summary["spearman_pos_days"] == len(days)).sum())
+            f.write(f"\nRule (frozen): H1 holds for a symbol and horizon if the daily correlation is > 0 on all "
+                    f"{len(days)} held-out days.\n"
+                    f"Primary (Pearson): passed {p1} of {len(summary)}. Secondary (Spearman): passed {p2} of "
+                    f"{len(summary)}. About {chance:.1f} would pass by chance if there were no effect.\n")
     print(f"wrote {a.out}")
     return 0
 

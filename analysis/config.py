@@ -20,5 +20,6 @@ BUCKET_EDGES = (-1.0, -0.6, -0.2, 0.2, 0.6, 1.0)  # imbalance buckets for the su
 
 # v2 (strategy simulation), frozen now, used later.
 THRESHOLDS = (0.2, 0.4, 0.6, 0.8)
+SPREAD_LIMITS_TICKS = (1, 2, None)   # trade only when the PSX spread is at most this (None: any)
 LATENCIES_NS = (0, 10_000, 100_000, 1_000_000)
 FEES_PER_SHARE = (0.0, 0.001, 0.003)

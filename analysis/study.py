@@ -66,13 +66,17 @@ def signal_stats(signal, change):
     """Statistics of `change` against `signal` over rows where both are finite."""
     ok = np.isfinite(signal) & np.isfinite(change)
     x, y = signal[ok], change[ok]
-    res = {"n": int(ok.sum()), "share_zero": np.nan, "corr": np.nan, "slope": np.nan}
+    res = {"n": int(ok.sum()), "share_zero": np.nan, "corr": np.nan, "slope": np.nan, "spearman": np.nan}
     if res["n"] == 0:
         return res, [np.nan] * (len(C.BUCKET_EDGES) - 1)
     res["share_zero"] = float(np.mean(y == 0))
     if res["n"] > 1 and np.std(x) > 0 and np.std(y) > 0:
         res["corr"] = float(np.corrcoef(x, y)[0, 1])
         res["slope"] = float(np.cov(x, y, bias=True)[0, 1] / np.var(x))
+        # Secondary H1 statistic (frozen after the development diagnostic): correlation of
+        # ranks, so a few huge mid jumps on a thin book cannot dominate it.
+        rx, ry = pd.Series(x).rank().to_numpy(), pd.Series(y).rank().to_numpy()
+        res["spearman"] = float(np.corrcoef(rx, ry)[0, 1])
     b = np.clip(np.digitize(x, C.BUCKET_EDGES[1:-1]), 0, len(C.BUCKET_EDGES) - 2)
     buckets = [float(y[b == k].mean()) if np.any(b == k) else np.nan for k in range(len(C.BUCKET_EDGES) - 1)]
     return res, buckets

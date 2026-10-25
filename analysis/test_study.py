@@ -124,5 +124,15 @@ class HeldOutLock(unittest.TestCase):
             self.assertFalse(os.path.exists(os.path.join(d, "HELDOUT_USED")))
 
 
+class Spearman(unittest.TestCase):
+    def test_one_big_jump_flips_pearson_not_spearman(self):
+        x = np.linspace(-1, 1, 2001)
+        y = np.sign(x) * 1.0
+        y[0] = 5000.0
+        s, _ = study.signal_stats(x, y)
+        self.assertLess(s["corr"], 0)
+        self.assertGreater(s["spearman"], 0.5)
+
+
 if __name__ == "__main__":
     unittest.main()
