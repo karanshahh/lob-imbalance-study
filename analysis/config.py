@@ -23,3 +23,11 @@ THRESHOLDS = (0.2, 0.4, 0.6, 0.8)
 SPREAD_LIMITS_TICKS = (1, 2, None)   # trade only when the PSX spread is at most this (None: any)
 LATENCIES_NS = (0, 10_000, 100_000, 1_000_000)
 FEES_PER_SHARE = (0.0, 0.001, 0.003)
+
+# v2 simulation decisions (docs/design.md, "v2 decisions"). Made before any v2 run.
+HOLD_NS = 100_000_000             # exit is sent this long after the entry fill (100 ms)
+REF_LATENCY_NS = 100_000          # reference cell used to select the variant (100 us)
+REF_FEE_PER_SHARE = 0.001         # reference fee used to select the variant ($0.001/share)
+MIN_TRADES_SELECT = 100           # a variant needs this many development trades to be eligible
+RANDOM_REPS = 200                 # random-direction baseline repetitions
+RANDOM_SEED = 20261025            # fixed seed for the random baseline

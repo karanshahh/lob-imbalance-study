@@ -147,3 +147,46 @@ it and later simulates trading.
   touched once; trials log committed.
 - The README states the honest conclusion, whichever way it goes.
 
+## v2 decisions (2026-10-25, fixed before any v2 run)
+These choices were fixed before any v2 number existed.
+Implementation: analysis/sim.py (rules), analysis/run_strategy_sim.py (development days
+only), tests with a slow independent reference in analysis/test_sim.py.
+
+1. **Entry.** When flat, a row inside the session with |I| >= threshold and PSX spread
+   <= limit fires. I > 0: buy at the best ask. I < 0: sell at the best bid. The fill uses
+   the last row with timestamp <= t + latency.
+2. **Exit.** Sent 100 ms after the entry fill (t + latency + 100 ms), filled at the
+   opposite best price using the last row with timestamp <= t + 100 ms + 2 x latency.
+3. **Position.** One share, one position at a time. A signal while a position is open is
+   ignored (signal time before the exit fill time). Fees are charged on both legs.
+4. **Empty side.** Entry side empty at the fill row: trade skipped, no position opened.
+   Exit side empty: use the first later row that has it. None before 16:00: trade dropped.
+   Skipped and dropped trades are counted and reported per cell.
+5. **Selection.** Per symbol, the variant with the highest development-day mean net P&L
+   per trade at the reference cell (latency 100 us, fee $0.001 per share), among variants
+   with at least 100 development trades. If none qualifies, H2 stands for that symbol.
+6. **H2 test (held-out, once).** Only the selected variant is run. H2 is rejected for a
+   symbol only if its mean net P&L per trade at the reference cell is positive on all 4
+   held-out days; a day with no trades counts as not positive. Chance level is 1/16 per
+   symbol (about 0.31 of 5 expected). Other latencies, fees and variants are descriptive.
+7. **Baselines.** Random direction at the same entry rows (200 repetitions, fixed seed,
+   one-position rule not re-applied, unfillable directions dropped) and always flat (zero).
+8. **Sharpe.** Per-trade Sharpe with an iid standard error, which understates the
+   uncertainty because trades are not independent. The deflated Sharpe (N = 12 trials per
+   symbol, N = 60 overall) is added only after its definition is checked against Bailey
+   and Lopez de Prado (2014); until then it is not reported.
+9. **OFI baseline.** A signal comparison only (correlation with the forward change, as in
+   v1), not a traded rule. Cont, Kukanov and Stoikov (2014), Journal of Financial
+   Econometrics 12(1), 47-88, exists and defines OFI at the best bid and ask. The exact
+   event formula must be read from the paper (Section 2.1) before implementing. Here OFI
+   would be computed from consecutive collapsed rows, which nets out events inside one
+   timestamp, and trailing OFI against the forward change is our own extension, not the
+   paper's test. Not implemented yet.
+
+Limits stated up front:
+- The 100 ms hold was chosen after seeing v1 development results (correlations were
+  strongest at 100 ms). That favours the signal, so a negative result is stronger.
+- One share means the size at the touch never limits a fill. Own market impact and the
+  borrow cost of shorts are ignored.
+- PSX only: one small venue, shallow books. Results describe PSX, not the market.
+- Trial 4 in docs/progress.md is the development grid: 12 variants per symbol.
