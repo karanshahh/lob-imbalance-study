@@ -9,7 +9,7 @@ The count of strategy variants tried feeds the deflated Sharpe in v2.
 | v1 | Real-data reference check | QQQ 20190130 and AAPL 20190327, first 200,000 rows each: match |
 | v1 | Development-day results | results/vm-v1-20261025-162612 (rerun of results/vm-v1-20261025-161440, identical); export benchmark results/vm-v1-export-20261025-162724.txt |
 | v2 | Strategy simulation | built and tested; development grid run (trial 4): results/vm-v2-dev-20261025-220832 |
-| v2 | Held-out evaluation (once) | not started |
+| v2 | Held-out evaluation (once) | done: results/vm-v2-heldout-20261025-173948 |
 
 ## Trials
 | # | Date | Set | What | Parameters | Outcome |
@@ -19,3 +19,4 @@ The count of strategy variants tried feeds the deflated Sharpe in v2.
 | 3 | 2026-10-25 | dev | Decision after trial 2, before held-out | Spearman as frozen secondary H1 test; v2 spread limit 1, 2, any (12 variants) | logged in docs/design.md |
 | 4 | 2026-10-25 | dev | v2 strategy simulation, full development grid | 12 variants x 4 latencies x 3 fees x 5 symbols, 5 development days; random-direction baseline, 200 repetitions per variant | run results/vm-v2-dev-20261025-220832 (commit 2d1983a): every variant has negative mean net P&L per trade at the reference cell; selection in selection.json |
 | 5 | 2026-10-25 | dev | P&L decomposition of the selected variants (read-only diagnostic) | gross = signed mid move - half entry spread - half exit spread; 4 latencies; selected variant per symbol | run results/vm-v2-diag-20261025-223356: identity exact on every trade; SPY at the reference cell: +0.172 ticks signed move, -0.607 half entry spread, -0.800 half exit spread; no rule changed. H2 runner rehearsal on development days: 0 of 5 symbols rejected (output not kept) |
+| 6 | 2026-10-25 | held-out | H2 and H1 held-out evaluation, once each | selected variant per symbol (from trial 4); H1 frozen rule | run results/vm-v2-heldout-20261025-173948 (commit 45f139d): H2 not rejected for any of 5 symbols (all 20 symbol-days negative); H1 passed 20 of 30 (Pearson) and 20 of 30 (Spearman); locks results/HELDOUT_SIM_USED and results/HELDOUT_USED |

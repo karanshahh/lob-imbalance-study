@@ -212,3 +212,10 @@ Limits stated up front:
 - **Reading the held-out results.** The verdict rules are the frozen ones: H2 item 6 of
   "v2 decisions", and H1 as written under Hypotheses (Pearson primary, Spearman secondary).
   Both are reported whichever way they go. The selected variants are not revisited.
+
+## v2 outcome notes (added 2026-10-25, after the held-out run; no rule changed)
+- Deflated Sharpe (item 8 of "v2 decisions"): not computed. Every variant's mean net P&L per trade is negative on
+  development and held-out days, so deflating a Sharpe could only lower it. Trial counts: 12 variants per symbol,
+  60 in the grid; trials 1 to 6 are logged in docs/progress.md.
+- OFI baseline (item 9): not implemented. Moved to the v3 options.
+- The held-out baseline.csv (random direction) was written by the run and has not been read.
