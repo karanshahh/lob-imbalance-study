@@ -199,7 +199,7 @@ Limits stated up front:
 - **Trial 5 (diagnostic, development days, read-only).** analysis/diagnose_sim.py splits
   each selected variant's gross P&L per trade exactly into: signed mid move minus half the
   entry spread minus half the exit spread, at each latency. It changes no rule or constant.
-- **Held-out procedure.** scripts/run_heldout.sh runs once, in this order: H2 with
+- **Held-out procedure.** scripts/run_heldout.py runs once, in this order: H2 with
   analysis/run_heldout_sim.py --final (lock results/HELDOUT_SIM_USED), then H1 with
   analysis/run_signal_study.py --set heldout --final (lock results/HELDOUT_USED). Each lock
   is created before anything is computed. The script first checks, without reading

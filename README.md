@@ -40,7 +40,7 @@ every choice fixed in advance and four days held out.
 | `analysis/run_strategy_sim.py` | Development-day grid (12 variants x 4 latencies x 3 fees x 5 symbols) and variant selection; cannot open held-out days |
 | `analysis/run_heldout_sim.py` | The H2 test on held-out days, once (own lock file); `--rehearsal` runs it on development days |
 | `analysis/diagnose_sim.py` | Splits each trade's P&L exactly into signed mid move minus half entry and exit spread |
-| `scripts/run_heldout.sh` | The one-way step: exports held-out days, runs H2 then H1, each behind a lock |
+| `scripts/run_heldout.py` | The one-way step: exports held-out days, runs H2 then H1, each behind a lock |
 
 ## Versions
 
@@ -73,13 +73,13 @@ way. One share, one position at a time, fees on both legs.
 | One variant per symbol, picked on development days and tested once on held-out days | Best mean net P&L per trade at 100 us and $0.001 with at least 100 trades; H2 is rejected for a symbol only if that variant is positive on all 4 held-out days |
 | Baselines: random direction at the same entry rows (200 repetitions), always flat | Separates what the direction is worth from what crossing the spread costs |
 
-Run it (needs the exports from `scripts/run_study.sh`):
+Run it (needs the exports from `scripts/run_study.py`):
 
 ```
 .venv/bin/python analysis/run_strategy_sim.py --data data/export --out results --label vm-v2-dev
 .venv/bin/python analysis/diagnose_sim.py --export-dir data/export --selection results/<dev run>/selection.json --out results --label vm-v2-diag
 .venv/bin/python analysis/run_heldout_sim.py --export-dir data/export --selection results/<dev run>/selection.json --out /tmp/rehearsal --rehearsal
-bash scripts/run_heldout.sh <label> results/<dev run>/selection.json    # held-out days, once
+python3 scripts/run_heldout.py <label> results/<dev run>/selection.json    # held-out days, once
 ```
 
 ## Data
@@ -110,12 +110,12 @@ development days) and AAPL (by choice). Raw data is not committed.
 
 ```
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-./scripts/build.sh all                  # ASan+UBSan, TSan, Release, then Python tests
-./scripts/mutation_check.sh             # every mutation must be caught
+python3 scripts/build.py all                  # ASan+UBSan, TSan, Release, then Python tests
+python3 scripts/mutation_check.py             # every mutation must be caught
 python3 analysis/itch_ref.py ~/itch/psx-study/20190130.PSX_ITCH_50 QQQ \
     --compare data/export/20190130/QQQ.csv --max-rows 200000
-MACHINE_LABEL="VM numbers (OrbStack, Apple Silicon; Chrome closed)" ./scripts/run_study.sh vm-v1
-MACHINE_LABEL="VM numbers (...)" PIN=2 ./scripts/run_bench.sh vm-v1-export
+MACHINE_LABEL="VM numbers (OrbStack, Apple Silicon; Chrome closed)" python3 scripts/run_study.py vm-v1
+MACHINE_LABEL="VM numbers (...)" PIN=2 python3 scripts/run_bench.py vm-v1-export
 ```
 
 ## Results
@@ -323,7 +323,7 @@ include/lobstudy/         export.hpp
 tools/                    lob_export.cpp
 tests/                    export_test.cpp
 analysis/                 config, study, runner, ITCH reference, end-to-end check, tests
-scripts/                  build.sh, mutation_check.sh, run_study.sh, run_bench.sh
+scripts/                  build.py, mutation_check.py, run_study.py, run_bench.py
 docs/                     design.md, progress.md
 results/                  raw outputs of each run, committed
 .github/workflows/        CI: sanitizer matrix and Release with Python tests
