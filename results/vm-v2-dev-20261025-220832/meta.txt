@@ -1,0 +1,17 @@
+run: vm-v2-dev-20261025-220832
+command: python3 analysis/run_strategy_sim.py --data data/export --out results --label vm-v2-dev
+started_utc: 2026-10-25T22:08:32+00:00
+ended_utc: 2026-10-25T22:10:01+00:00
+wall_seconds: 89.5
+machine_label: VM numbers (OrbStack Ubuntu, Apple Silicon aarch64, 8 CPUs; Chrome closed, Mac idle)
+git_commit: 2d1983a13aea807801be5f70eb7a043b54f0636b
+git_dirty_files: ?? results/vm-v2-dev-20261025-220832/
+python: 3.14.4  numpy: 2.4.4  pandas: 3.0.2
+platform: Linux-7.2.12-orbstack-00394-gbecdd6130068-aarch64-with-glibc2.43  machine: aarch64  cpus: 8
+config:
+  symbols: ('SPY', 'QQQ', 'IWM', 'MSFT', 'AAPL')
+  dev_days: ('20181228', '20190130', '20190327', '20190530', '20190730')
+  thresholds: (0.2, 0.4, 0.6, 0.8)  spread_limits_ticks: (1, 2, None)
+  latencies_ns: (0, 10000, 100000, 1000000)  fees_per_share: (0.0, 0.001, 0.003)
+  hold_ns: 100000000  ref_latency_ns: 100000  ref_fee: 0.001
+  min_trades_select: 100  random_reps: 200  seed: 20261025

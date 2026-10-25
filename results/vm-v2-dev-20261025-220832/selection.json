@@ -1,0 +1,60 @@
+{
+  "rule": "best development mean net USD per trade at the reference cell, latency 100000 ns, fee 0.001, at least 100 trades",
+  "symbols": [
+    {
+      "symbol": "SPY",
+      "selected": {
+        "threshold": 0.8,
+        "spread_limit_ticks": "1",
+        "dev_trades": 22652,
+        "dev_net_mean_usd_at_ref": -0.01435255165106834
+      },
+      "eligible_variants": 12,
+      "variants_total": 12
+    },
+    {
+      "symbol": "QQQ",
+      "selected": {
+        "threshold": 0.8,
+        "spread_limit_ticks": "1",
+        "dev_trades": 124842,
+        "dev_net_mean_usd_at_ref": -0.01389343329969081
+      },
+      "eligible_variants": 12,
+      "variants_total": 12
+    },
+    {
+      "symbol": "IWM",
+      "selected": {
+        "threshold": 0.8,
+        "spread_limit_ticks": "1",
+        "dev_trades": 38947,
+        "dev_net_mean_usd_at_ref": -0.013701799881890775
+      },
+      "eligible_variants": 12,
+      "variants_total": 12
+    },
+    {
+      "symbol": "MSFT",
+      "selected": {
+        "threshold": 0.2,
+        "spread_limit_ticks": "1",
+        "dev_trades": 66300,
+        "dev_net_mean_usd_at_ref": -0.021004675716440425
+      },
+      "eligible_variants": 12,
+      "variants_total": 12
+    },
+    {
+      "symbol": "AAPL",
+      "selected": {
+        "threshold": 0.8,
+        "spread_limit_ticks": "1",
+        "dev_trades": 423,
+        "dev_net_mean_usd_at_ref": -0.021692671394799058
+      },
+      "eligible_variants": 12,
+      "variants_total": 12
+    }
+  ]
+}
