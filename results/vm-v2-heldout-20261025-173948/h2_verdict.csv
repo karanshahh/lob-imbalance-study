@@ -1,0 +1,6 @@
+symbol,threshold,spread_limit_ticks,days,days_net_positive,h2_rejected,note
+SPY,0.8,1,4,0,False,H2 not rejected
+QQQ,0.8,1,4,0,False,H2 not rejected
+IWM,0.8,1,4,0,False,H2 not rejected
+MSFT,0.2,1,4,0,False,H2 not rejected
+AAPL,0.8,1,4,0,False,H2 not rejected

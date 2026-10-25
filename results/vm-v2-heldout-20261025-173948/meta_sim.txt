@@ -1,0 +1,14 @@
+mode: FINAL (held-out days)
+command: python3 analysis/run_heldout_sim.py --export-dir data/export --selection results/vm-v2-dev-20261025-220832/selection.json --out results/vm-v2-heldout-20261025-173948 --results-root results --final
+started_utc: 2026-10-25T22:40:19+00:00
+ended_utc: 2026-10-25T22:41:29+00:00
+wall_seconds: 69.6
+machine_label: VM numbers (OrbStack Ubuntu, Apple Silicon aarch64, 8 CPUs; Chrome closed, Mac idle)
+git_commit: 45f139d8509f66511abaf73d0bc84c7d8fd10ed0
+git_dirty_files: ?? results/HELDOUT_SIM_USED
+?? results/vm-v2-heldout-20261025-173948/
+selection_file: results/vm-v2-dev-20261025-220832/selection.json
+selection_sha256: 6b34a989137edcb146cdb2f2e338ce340f63abdc77313336c3455fc85c0c6fe1
+days: ('20190830', '20191030', '20191230', '20200130')
+python: 3.14.4  numpy: 2.4.4  pandas: 3.0.2
+reference cell: latency 100000 ns, fee 0.001, hold 100000000 ns

@@ -1,0 +1,35 @@
+H2 on held-out days: 20190830, 20191030, 20191230, 20200130
+Cell: latency 100000 ns, fee $0.001 per share, 1 share, hold 100 ms. Rule: reject H2 for a symbol only if the selected variant's mean net P&L per trade is positive on all 4 days.
+
+SPY: threshold 0.8, spread limit 1
+   20190830:    4319 trades, net -0.01416 USD per trade
+   20191030:    2111 trades, net -0.01873 USD per trade
+   20191230:   11217 trades, net -0.01374 USD per trade
+   20200130:   10415 trades, net -0.01784 USD per trade
+   positive on 0 of 4 days -> H2 not rejected
+QQQ: threshold 0.8, spread limit 1
+   20190830:    8894 trades, net -0.01376 USD per trade
+   20191030:   12904 trades, net -0.01578 USD per trade
+   20191230:   27968 trades, net -0.01360 USD per trade
+   20200130:   44936 trades, net -0.01462 USD per trade
+   positive on 0 of 4 days -> H2 not rejected
+IWM: threshold 0.8, spread limit 1
+   20190830:    7114 trades, net -0.01329 USD per trade
+   20191030:     110 trades, net -0.01645 USD per trade
+   20191230:    5418 trades, net -0.01402 USD per trade
+   20200130:    8322 trades, net -0.01413 USD per trade
+   positive on 0 of 4 days -> H2 not rejected
+MSFT: threshold 0.2, spread limit 1
+   20190830:    5648 trades, net -0.01596 USD per trade
+   20191030:    2698 trades, net -0.06471 USD per trade
+   20191230:   10909 trades, net -0.01731 USD per trade
+   20200130:    5012 trades, net -0.05145 USD per trade
+   positive on 0 of 4 days -> H2 not rejected
+AAPL: threshold 0.8, spread limit 1
+   20190830:     218 trades, net -0.01723 USD per trade
+   20191030:      34 trades, net -0.57229 USD per trade
+   20191230:       6 trades, net -2.79200 USD per trade
+   20200130:       4 trades, net -0.02200 USD per trade
+   positive on 0 of 4 days -> H2 not rejected
+
+H2 rejected for 0 of 5 symbols. If days were a coin flip, about 0.31 symbols would pass by chance.

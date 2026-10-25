@@ -1,0 +1,8 @@
+command: build-release/lob_export /home/karan/itch/psx-study/20200130.PSX_ITCH_50 data/export/20200130 SPY QQQ IWM MSFT AAPL
+file /home/karan/itch/psx-study/20200130.PSX_ITCH_50
+parse_s 12.33 messages 73152441
+symbol SPY ops 2259172 rows 2259172 crossed 0 one_sided 10242 unknown_refs 0 peak_live 76 export_s 0.637
+symbol QQQ ops 2089005 rows 2089005 crossed 0 one_sided 9141 unknown_refs 0 peak_live 85 export_s 0.591
+symbol IWM ops 1248996 rows 1248996 crossed 0 one_sided 18862 unknown_refs 0 peak_live 94 export_s 0.352
+symbol MSFT ops 270025 rows 270025 crossed 0 one_sided 369 unknown_refs 0 peak_live 39 export_s 0.074
+symbol AAPL ops 585567 rows 585567 crossed 0 one_sided 516 unknown_refs 0 peak_live 25 export_s 0.155

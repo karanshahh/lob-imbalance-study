@@ -1,0 +1,11 @@
+label        vm-v2-heldout
+machine      VM numbers (OrbStack Ubuntu, Apple Silicon aarch64, 8 CPUs; Chrome closed, Mac idle)
+date (UTC)   2026-10-25T22:39:48Z
+kernel       Linux 7.2.12-orbstack-00394-gbecdd6130068 aarch64
+cpus         7
+commit       45f139d8509f66511abaf73d0bc84c7d8fd10ed0 (clean tree)
+selection    results/vm-v2-dev-20261025-220832/selection.json
+python       3.14.4 numpy 2.4.4 pandas 3.0.2
+itch dir     /home/karan/itch/psx-study
+days         20190830 20191030 20191230 20200130
+symbols      SPY QQQ IWM MSFT AAPL
