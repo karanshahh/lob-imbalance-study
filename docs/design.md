@@ -190,3 +190,25 @@ Limits stated up front:
   borrow cost of shorts are ignored.
 - PSX only: one small venue, shallow books. Results describe PSX, not the market.
 - Trial 4 in docs/progress.md is the development grid: 12 variants per symbol.
+
+## v2 held-out procedure and diagnostics (added 2026-10-25, before any held-out use)
+- **Trial 4 (development grid).** Run on the 5 development days: every one of the 60
+  variants (12 per symbol, 5 symbols) has a negative mean net P&L per trade at the
+  reference cell. Raw output: results/vm-v2-dev-20261025-220832/. The variant selected
+  per symbol is written by the code (selection.json), not chosen by hand.
+- **Trial 5 (diagnostic, development days, read-only).** analysis/diagnose_sim.py splits
+  each selected variant's gross P&L per trade exactly into: signed mid move minus half the
+  entry spread minus half the exit spread, at each latency. It changes no rule or constant.
+- **Held-out procedure.** scripts/run_heldout.sh runs once, in this order: H2 with
+  analysis/run_heldout_sim.py --final (lock results/HELDOUT_SIM_USED), then H1 with
+  analysis/run_signal_study.py --set heldout --final (lock results/HELDOUT_USED). Each lock
+  is created before anything is computed. The script first checks, without reading
+  held-out data: Release build, a clean git tree, the selection file committed, the
+  input files present, no lock present, and a typed confirmation.
+- **A failure after a lock is claimed spends that use.** Re-running then needs a decision
+  logged in docs/progress.md, not a quiet retry.
+- **Rehearsal.** run_heldout_sim.py --rehearsal runs the same code on the development days
+  with no lock, to prove the pipeline on real data first. Its verdict is not a result.
+- **Reading the held-out results.** The verdict rules are the frozen ones: H2 item 6 of
+  "v2 decisions", and H1 as written under Hypotheses (Pearson primary, Spearman secondary).
+  Both are reported whichever way they go. The selected variants are not revisited.
